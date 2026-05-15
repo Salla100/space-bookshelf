@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Vault — Curated Gear for the Space-Obsessed</title>
+  <meta name="description" content="Hand-picked books, textbooks, telescopes, electronics, LEGO, movies and more — personally curated by a space systems engineer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VAULT ANIMATION OVERLAY
+═══════════════════════════════════════════════════════════ -->
+<div id="vault-overlay" aria-hidden="true">
+
+  <!-- Left door -->
+  <div class="v-door v-left">
+    <div class="v-door-grid"></div>
+    <div class="v-door-stripe v-stripe-right"></div>
+    <div class="v-door-label v-label-tl">SPACE VAULT / CLASS Ω</div>
+    <div class="v-door-label v-label-bl">AUTHORISED PERSONNEL ONLY</div>
+  </div>
+
+  <!-- Right door -->
+  <div class="v-door v-right">
+    <div class="v-door-grid"></div>
+    <div class="v-door-stripe v-stripe-left"></div>
+    <div class="v-door-label v-label-tr">SECTOR 4 / LEVEL 5</div>
+    <div class="v-door-label v-label-br">RESTRICTED ACCESS</div>
+  </div>
+
+  <!-- Center HUD — floats above both doors -->
+  <div class="v-hud" id="v-hud">
+
+    <!-- Vault wheel SVG -->
+    <svg id="v-wheel" class="v-wheel" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer rings -->
+      <circle cx="60" cy="60" r="57" fill="none" stroke="rgba(74,158,255,0.15)" stroke-width="1"/>
+      <circle cx="60" cy="60" r="53" fill="none" stroke="#1e2d45" stroke-width="7"/>
+      <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(74,158,255,0.08)" stroke-width="1"/>
+      <!-- Door fill -->
+      <circle cx="60" cy="60" r="49" fill="#0a0d14"/>
+      <!-- 8 spokes -->
+      <g stroke="#4a9eff" stroke-width="2.5" stroke-linecap="round">
+        <line x1="60" y1="17" x2="60" y2="44"/>
+        <line x1="60" y1="76" x2="60" y2="103"/>
+        <line x1="17" y1="60" x2="44" y2="60"/>
+        <line x1="76" y1="60" x2="103" y2="60"/>
+        <line x1="30.3" y1="30.3" x2="47.6" y2="47.6"/>
+        <line x1="72.4" y1="72.4" x2="89.7" y2="89.7"/>
+        <line x1="89.7" y1="30.3" x2="72.4" y2="47.6"/>
+        <line x1="47.6" y1="72.4" x2="30.3" y2="89.7"/>
+      </g>
+      <!-- Cardinal handle knobs -->
+      <circle cx="60" cy="11" r="5.5" fill="#0a0d14" stroke="#4a9eff" stroke-width="2"/>
+      <circle cx="109" cy="60" r="5.5" fill="#0a0d14" stroke="#4a9eff" stroke-width="2"/>
+      <circle cx="60" cy="109" r="5.5" fill="#0a0d14" stroke="#4a9eff" stroke-width="2"/>
+      <circle cx="11" cy="60" r="5.5" fill="#0a0d14" stroke="#4a9eff" stroke-width="2"/>
+      <!-- Center hub -->
+      <circle cx="60" cy="60" r="11" fill="#0f1520" stroke="#4a9eff" stroke-width="1.5"/>
+      <circle cx="60" cy="60" r="5.5" fill="#4a9eff"/>
+      <circle cx="60" cy="60" r="2" fill="#0a0d14"/>
+    </svg>
+
+    <!-- Brand text -->
+    <div class="v-brand">
+      <div class="v-eyebrow">— CLASSIFIED ARCHIVE —</div>
+      <div class="v-title-text">SPACE VAULT</div>
+      <div class="v-subtitle-text">CURATED INTELLIGENCE DATABASE</div>
+    </div>
+
+    <!-- Status readout -->
+    <div class="v-status-wrap">
+      <div class="v-status-row">
+        <span class="v-pulse-dot"></span>
+        <span id="v-status">INITIALISING SYSTEMS...</span>
+      </div>
+      <div class="v-progress-track">
+        <div class="v-progress-fill" id="v-progress"></div>
+      </div>
+    </div>
+
+  </div><!-- /v-hud -->
+
+  <button class="v-skip" id="v-skip">Skip ›</button>
+
+</div><!-- /vault-overlay -->
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN SITE CONTENT
+═══════════════════════════════════════════════════════════ -->
+<div id="site">
+
+  <a href="https://svenamberg.com" class="home-link">← svenamberg.com</a>
+  <canvas id="starfield"></canvas>
+
+  <header class="site-header">
+    <div class="sh-inner">
+      <span class="sh-glyph">🛸</span>
+      <div>
+        <div class="sh-name">Space Vault</div>
+        <div class="sh-tagline">Curated gear for the space-obsessed</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Weekly Picks -->
+  <section class="weekly-section">
+    <div class="container">
+      <div class="section-eyebrow">WEEKLY TRANSMISSION</div>
+      <h2 class="section-title">This Week's Picks</h2>
+      <p class="section-meta" id="weekly-meta"></p>
+      <div class="weekly-row" id="weekly-grid"></div>
+    </div>
+  </section>
+
+  <!-- Controls: search + filter tabs -->
+  <div class="controls-bar" id="controls-bar">
+    <div class="container">
+      <div class="controls-inner">
+        <div class="search-wrap">
+          <svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input id="search" type="text" placeholder="Search the vault..." autocomplete="off" spellcheck="false">
+          <button id="search-clear" class="hidden" aria-label="Clear">×</button>
+        </div>
+        <div class="filter-scroll">
+          <div class="filter-tabs" id="filter-tabs"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vault main area -->
+  <main class="vault-main">
+    <div class="container">
+      <!-- Shelves view (default) -->
+      <div id="shelves"></div>
+      <!-- Grid view (search/filter active) -->
+      <div id="search-grid" class="sg-grid hidden"></div>
+      <!-- Empty state -->
+      <div id="empty" class="empty-state hidden">
+        <div class="empty-icon">🔭</div>
+        <p>Nothing found in the vault.</p>
+        <button id="reset-btn">Clear filters</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-row">
+        <div>
+          <div class="footer-brand">🛸 Space Vault</div>
+          <p class="footer-desc">Hand-picked gear by a space systems engineer at NTNU &amp; ESA ESOC.</p>
+        </div>
+        <div>
+          <div class="footer-label">More from Sven</div>
+          <ul class="footer-links">
+            <li><a href="https://svenamberg.com" target="_blank" rel="noopener noreferrer">svenamberg.com</a></li>
+            <li><a href="https://launches.svenamberg.com" target="_blank" rel="noopener noreferrer">launches.svenamberg.com</a></li>
+            <li><a href="https://opportunities.svenamberg.com" target="_blank" rel="noopener noreferrer">opportunities.svenamberg.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="affiliate-notice">This site contains affiliate links. When you purchase through links on Space Vault, I may earn a small commission at no extra cost to you. As an Amazon Associate I earn from qualifying purchases. Prices shown are approximate and may vary.</p>
+    </div>
+  </footer>
+
+</div><!-- /site -->
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     DETAIL MODAL
+═══════════════════════════════════════════════════════════ -->
+<div id="modal-bg" class="hidden" aria-hidden="true">
+  <div id="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button id="modal-close" aria-label="Close detail">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+name: Sync Notion → Space Vault
+
+on:
+  schedule:
+    - cron: '0 7 * * *'   # Daily at 07:00 UTC — adjust to match your other syncs
+  workflow_dispatch:        # Run manually any time from GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Sync from Notion
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+        run: npm run sync
+
+      - name: Commit updated products.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/products.json
+          if git diff --staged --quiet; then
+            echo "✅ No changes — products.json is already up to date."
+          else
+            git commit -m "sync: update vault from Notion ($(date -u '+%Y-%m-%d'))"
+            git push
+          fi
