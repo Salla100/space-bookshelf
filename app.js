@@ -199,8 +199,7 @@ function renderWeekly(items) {
     card.innerHTML = `
       <span class="weekly-badge">Pick #${i + 1}</span>
       <div class="vi-top tc-${p.category}">
-        ${p.image ? `<img src="${p.image}" alt="" loading="lazy" onerror="this.remove()">` : ''}
-        <span class="vi-icon">${m.icon}</span>
+        ${p.image ? `<img src="${p.image}" alt="" loading="lazy" onerror="this.remove()">` : `<span class="vi-icon">${m.icon}</span>`}
       </div>
       <div class="vi-body">
         <span class="vi-cat">${m.label}</span>
@@ -291,8 +290,7 @@ function makeVaultItem(p, isGrid) {
   el.innerHTML = `
     ${p.sven_pick ? '<span class="vi-pick">Sven picks</span>' : ''}
     <div class="vi-top tc-${p.category}">
-      ${p.image ? `<img src="${p.image}" alt="" loading="lazy" onerror="this.remove()">` : ''}
-      <span class="vi-icon">${m.icon}</span>
+      ${p.image ? `<img src="${p.image}" alt="" loading="lazy" onerror="this.remove()">` : `<span class="vi-icon">${m.icon}</span>`}
     </div>
     <div class="vi-body">
       <span class="vi-cat">${m.label}</span>
@@ -341,8 +339,7 @@ function openModal(p) {
 
   body.innerHTML = `
     <div class="modal-hero tc-${p.category}">
-      ${p.image ? `<img src="${p.image}" alt="" onerror="this.remove()">` : ''}
-      <span class="modal-hero-icon">${m.icon}</span>
+      ${p.image ? `<img src="${p.image}" alt="" onerror="this.remove()">` : `<span class="modal-hero-icon">${m.icon}</span>`}
     </div>
     <div class="modal-content">
       <div class="modal-top-row">
