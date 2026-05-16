@@ -2,13 +2,7 @@
   "name": "space-vault",
   "version": "1.0.0",
   "description": "Curated space gear affiliate site",
-  "type": "module",
   "scripts": {
-    "sync": "node scripts/sync-notion.js",
     "serve": "npx serve . --listen 3001"
-  },
-  "dependencies": {
-    "@notionhq/client": "^2.2.15",
-    "dotenv": "^16.4.5"
   }
 }
