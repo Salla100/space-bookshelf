@@ -40,7 +40,7 @@ if not NOTION_TOKEN:
 # ── Fill in your Space Vault Notion database ID ───────────────────────────────
 # Find it in the URL when the database is open in Notion:
 #   notion.so/yourname/[THIS-32-CHAR-ID]?v=...
-VAULT_DB_ID = "PASTE_YOUR_DATABASE_ID_HERE"
+VAULT_DB_ID = "0a40dbe1d2c04831bda6eb2668998541"
 
 HEADERS = {
     "Authorization": f"Bearer {NOTION_TOKEN}",
